@@ -1,15 +1,17 @@
-#define LEFT_FRONT_MOTOR_DRIVE1_PIN 12
-#define LEFT_FRONT_MOTOR_DRIVE2_PIN 13
-#define PWM_LEFT_FRONT_MOTOR_DRIVE_PIN 15
-#define LEFT_BACK_MOTOR_DRIVE1_PIN 32
-#define LEFT_BACK_MOTOR_DRIVE2_PIN 33
-#define PWM_LEFT_BACK_MOTOR_DRIVE_PIN 2
-#define RIGHT_FRONT_MOTOR_DRIVE1_PIN 25
-#define RIGHT_FRONT_MOTOR_DRIVE2_PIN 26
-#define PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN 4
-#define RIGHT_BACK_MOTOR_DRIVE1_PIN 27
-#define RIGHT_BACK_MOTOR_DRIVE2_PIN 14
-#define PWM_RIGHT_BACK_MOTOR_DRIVE_PIN 19
+#define MR_IN1 12 //motor1
+#define MR_IN2 13 //motor1
+#define MR_IN3 32 //motor2
+#define MR_IN4 33 //motor2
+
+#define ML_IN1 27 //motor4
+#define ML_IN2 14 //motor4
+#define ML_IN3 25 //motor3
+#define ML_IN4 26 //motor3
+
+#define R_ENA 15  //Adjust speed  //motor1
+#define R_ENB 2   //Adjust speed //motor2
+#define L_ENA 19  //Adjust speed //motor4
+#define L_ENB 4   //Adjust speed //motor3
 
 #define FACTOR_MOTOR1 1
 #define FACTOR_MOTOR2 1
@@ -23,285 +25,223 @@ uint8_t SpeedM4;
 /*-----------------------------------------------*/
 void MotorDriveSetup()
 {
-  pinMode(LEFT_FRONT_MOTOR_DRIVE1_PIN, OUTPUT);
-  pinMode(LEFT_FRONT_MOTOR_DRIVE2_PIN, OUTPUT);
-  pinMode(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, OUTPUT);
-
-  pinMode(LEFT_BACK_MOTOR_DRIVE1_PIN, OUTPUT);
-  pinMode(LEFT_BACK_MOTOR_DRIVE2_PIN, OUTPUT);
-  pinMode(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, OUTPUT);
-  
-  pinMode(RIGHT_FRONT_MOTOR_DRIVE1_PIN, OUTPUT);
-  pinMode(RIGHT_FRONT_MOTOR_DRIVE2_PIN, OUTPUT);
-  pinMode(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, OUTPUT);
-  
-  pinMode(RIGHT_BACK_MOTOR_DRIVE1_PIN, OUTPUT);
-  pinMode(RIGHT_BACK_MOTOR_DRIVE2_PIN, OUTPUT);
-  pinMode(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, OUTPUT);
-
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  digitalWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, LOW);
-
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  digitalWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, LOW);
-
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  digitalWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, LOW);
-
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  digitalWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, LOW);
+  pinMode(MR_IN1, OUTPUT);
+  pinMode(MR_IN2, OUTPUT);
+  pinMode(MR_IN3, OUTPUT);
+  pinMode(MR_IN4, OUTPUT);
+  pinMode(ML_IN1, OUTPUT);
+  pinMode(ML_IN2, OUTPUT);
+  pinMode(ML_IN3, OUTPUT);
+  pinMode(ML_IN4, OUTPUT);
+  pinMode(L_ENA, OUTPUT);
+  pinMode(L_ENB, OUTPUT);
+  pinMode(R_ENA, OUTPUT);
+  pinMode(R_ENB, OUTPUT);
+  Stop();
 }
 /*-----------------------------------------------*/
 void Forward(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
 /*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, HIGH); //motor1
+  digitalWrite(MR_IN2, LOW);  //motor1
+  digitalWrite(MR_IN3, HIGH); //motor2
+  digitalWrite(MR_IN4, LOW);  //motor2
+  digitalWrite(ML_IN1, HIGH); //motor4
+  digitalWrite(ML_IN2, LOW);  //motor4
+  digitalWrite(ML_IN3, HIGH); //motor3
+  digitalWrite(ML_IN4, LOW);  //motor3
+  /*-----------------------------------------------*/
 }
-/*-----------------------------------------------*/
 
 void Backward(uint8_t Speed)
 {
   CalSpeedMotor(Speed); 
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, LOW);  //motor1
+  digitalWrite(MR_IN2, HIGH); //motor1
+  digitalWrite(MR_IN3, LOW);  //motor2
+  digitalWrite(MR_IN4, HIGH); //motor2
+  digitalWrite(ML_IN1, LOW);  //motor4
+  digitalWrite(ML_IN2, HIGH); //motor4
+  digitalWrite(ML_IN3, LOW);  //motor3
+  digitalWrite(ML_IN4, HIGH); //motor3
 }
 /*-----------------------------------------------*/
 void RotateRight(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, LOW);  //motor1
+  digitalWrite(MR_IN2, HIGH); //motor1
+  digitalWrite(MR_IN3, LOW);  //motor2
+  digitalWrite(MR_IN4, HIGH); //motor2
+  digitalWrite(ML_IN1, HIGH); //motor4
+  digitalWrite(ML_IN2, LOW);  //motor4
+  digitalWrite(ML_IN3, HIGH); //motor3
+  digitalWrite(ML_IN4, LOW);  //motor3
 }
 /*-----------------------------------------------*/
 void RotateLeft(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, HIGH); //motor1
+  digitalWrite(MR_IN2, LOW);  //motor1
+  digitalWrite(MR_IN3, HIGH); //motor2
+  digitalWrite(MR_IN4, LOW);  //motor2
+  digitalWrite(ML_IN1, LOW);  //motor4
+  digitalWrite(ML_IN2, HIGH); //motor4
+  digitalWrite(ML_IN3, LOW);  //motor3
+  digitalWrite(ML_IN4, HIGH); //motor3
 }
 /*-----------------------------------------------*/
 void SlideLeft(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, LOW);  //motor1
+  digitalWrite(MR_IN2, HIGH); //motor1
+  digitalWrite(MR_IN3, HIGH); //motor2
+  digitalWrite(MR_IN4, LOW);  //motor2
+  digitalWrite(ML_IN1, LOW);  //motor4
+  digitalWrite(ML_IN2, HIGH); //motor4
+  digitalWrite(ML_IN3, HIGH); //motor3
+  digitalWrite(ML_IN4, LOW);  //motor3
 }
 /*-----------------------------------------------*/
 void SlideRight(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, HIGH); //motor1
+  digitalWrite(MR_IN2, LOW);  //motor1
+  digitalWrite(MR_IN3, LOW);  //motor2
+  digitalWrite(MR_IN4, HIGH); //motor2
+  digitalWrite(ML_IN1, HIGH); //motor4
+  digitalWrite(ML_IN2, LOW);  //motor4
+  digitalWrite(ML_IN3, LOW);  //motor3
+  digitalWrite(ML_IN4, HIGH); //motor3
 }
 /*-----------------------------------------------*/
 void SlideLeftForward(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, LOW);  //motor1
+  digitalWrite(MR_IN2, LOW);  //motor1
+  digitalWrite(MR_IN3, HIGH); //motor2
+  digitalWrite(MR_IN4, LOW);  //motor2
+  digitalWrite(ML_IN1, LOW);  //motor4
+  digitalWrite(ML_IN2, LOW);  //motor4
+  digitalWrite(ML_IN3, HIGH); //motor3
+  digitalWrite(ML_IN4, LOW);  //motor3
 }
 /*-----------------------------------------------*/
 void SlideRightForward(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, HIGH);  //motor1
+  digitalWrite(MR_IN2, LOW);   //motor1
+  digitalWrite(MR_IN3, LOW);   //motor2
+  digitalWrite(MR_IN4, LOW);   //motor2
+  digitalWrite(ML_IN1, HIGH);  //motor4
+  digitalWrite(ML_IN2, LOW);   //motor4
+  digitalWrite(ML_IN3, LOW);   //motor3
+  digitalWrite(ML_IN4, LOW);   //motor3
 }
 /*-----------------------------------------------*/
 void SlideLeftBackward(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+/*-----------------------------------------------*/
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, LOW);  //motor1
+  digitalWrite(MR_IN2, HIGH); //motor1
+  digitalWrite(MR_IN3, LOW);  //motor2
+  digitalWrite(MR_IN4, LOW);  //motor2
+  digitalWrite(ML_IN1, LOW);  //motor4
+  digitalWrite(ML_IN2, HIGH); //motor4
+  digitalWrite(ML_IN3, LOW);  //motor3
+  digitalWrite(ML_IN4, LOW);  //motor3
 }
 /*-----------------------------------------------*/
 void SlideRightBackward(uint8_t Speed)
 {
   CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
-}
 /*-----------------------------------------------*/
-void LargeRotateRight(uint8_t Speed)
-{
-  CalSpeedMotor(Speed);
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, HIGH);
-  analogWrite(PWM_LEFT_FRONT_MOTOR_DRIVE_PIN, SpeedM1);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_LEFT_BACK_MOTOR_DRIVE_PIN, SpeedM2);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, HIGH);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_FRONT_MOTOR_DRIVE_PIN, SpeedM3);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
-  analogWrite(PWM_RIGHT_BACK_MOTOR_DRIVE_PIN, SpeedM4);
+  analogWrite(R_ENA, SpeedM1);
+  analogWrite(R_ENB, SpeedM2);
+  analogWrite(L_ENB, SpeedM3);
+  analogWrite(L_ENA, SpeedM4);
+
+  digitalWrite(MR_IN1, LOW);  //motor1
+  digitalWrite(MR_IN2, LOW);  //motor1
+  digitalWrite(MR_IN3, LOW);  //motor2
+  digitalWrite(MR_IN4, HIGH); //motor2
+  digitalWrite(ML_IN1, LOW);  //motor4
+  digitalWrite(ML_IN2, LOW);  //motor4
+  digitalWrite(ML_IN3, LOW);  //motor3
+  digitalWrite(ML_IN4, HIGH); //motor3
 }
 /*-----------------------------------------------*/
 void Stop() 
 {
-/*-----------------------------------------------*///Motor 1
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-/*-----------------------------------------------*///Motor 2
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(LEFT_BACK_MOTOR_DRIVE2_PIN, LOW);
-/*-----------------------------------------------*///Motor 3
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_FRONT_MOTOR_DRIVE2_PIN, LOW);
-/*-----------------------------------------------*///Motor 4
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE1_PIN, LOW);
-  digitalWrite(RIGHT_BACK_MOTOR_DRIVE2_PIN, LOW);
+/*-----------------------------------------------*/
+  digitalWrite(MR_IN1, LOW); //motor1
+  digitalWrite(MR_IN2, LOW); //motor1
+  digitalWrite(MR_IN3, LOW); //motor2
+  digitalWrite(MR_IN4, LOW); //motor2
+  digitalWrite(ML_IN1, LOW); //motor4
+  digitalWrite(ML_IN2, LOW); //motor4
+  digitalWrite(ML_IN3, LOW); //motor3
+  digitalWrite(ML_IN4, LOW); //motor3
 }
 /*-----------------------------------------------*/
 void CalSpeedMotor(uint8_t Speed)
