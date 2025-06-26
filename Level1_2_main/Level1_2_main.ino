@@ -74,14 +74,5 @@ void loop() {
 
 void ForwardToWall(uint32_t Speed, uint32_t Distance)
 {
-    Ultrasonic();
-    if((MeasureDistance < Distance) && (MeasureDistance > 0))
-    {
-      Data = 8;
-    }
-    else
-    {
-      Forward(Speed);
-      DisplayLcd(4, "Auto Car", 0, "");
-    }
+    
 }
